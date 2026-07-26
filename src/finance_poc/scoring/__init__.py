@@ -1,0 +1,1 @@
+"""Deterministic price-based research scoring."""

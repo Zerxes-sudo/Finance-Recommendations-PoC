@@ -32,7 +32,7 @@ This contract is approved and frozen for tranche one. It creates a relative rese
 
 ### Eligibility And Normalization
 
-- A stock is score-eligible only when it has at least 252 valid trading sessions ending on the scoring date and no unresolved data-validation warning.
+- A stock is score-eligible only when it has at least 253 valid daily closes ending on the scoring date and no unresolved data-validation warning. The extra close is required by the literal 12-month return formula: the current close plus the close 252 sessions earlier.
 - Each eligible metric is converted to its ascending percentile rank within the currently eligible NIFTY 50 universe, expressed from 0 to 100. Ties receive the average rank.
 - For maximum drawdown and volatility, the percentile is reversed because lower risk values are preferable. A higher normalized value is therefore always better.
 - A score is withheld rather than estimated when any required metric cannot be calculated. The result must include the withholding reason.
@@ -43,7 +43,7 @@ This contract is approved and frozen for tranche one. It creates a relative rese
 | Metric | Weight | Definition | Higher Research Signal |
 | --- | ---: | --- | --- |
 | 12-month return | 25% | $\left(P_t / P_{t-252} - 1\right) \times 100$, using adjusted close | Higher return |
-| 6-month return | 20% | $\left(P_t / P_{t-126} - 1\right) \times 100$, using adjusted close | Higher return |
+| 6-month return | 20% | $\left(P_t / P_{t-126} - 1\right) \times 100$, using adjusted close; requires 127 closes | Higher return |
 | Maximum drawdown | 25% | Lowest value of $\left(P_i / \max(P_0, \ldots, P_i) - 1\right) \times 100$ across the trailing 252 sessions | Smaller loss; normalized rank is reversed |
 | Annualized volatility | 15% | Standard deviation of trailing daily adjusted-close returns multiplied by $\sqrt{252}$ and expressed as a percentage | Lower volatility; normalized rank is reversed |
 | Return consistency | 15% | Percentage of the 12 trailing completed calendar months whose adjusted-close return is positive | Higher positive-month share |
