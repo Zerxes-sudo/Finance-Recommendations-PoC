@@ -162,6 +162,66 @@ class SqlitePriceRepository:
             retrieved_at=date.fromisoformat(str(refresh["retrieved_at"])),
         )
 
+    def list_latest_refreshes(self) -> tuple[RefreshRecord, ...]:
+        """Return each symbol's latest refresh, whether it is rankable or not."""
+
+        with self._connect() as connection:
+            rows = connection.execute(
+                """
+                SELECT refreshes.*
+                FROM refreshes
+                INNER JOIN (
+                    SELECT symbol, MAX(id) AS latest_id
+                    FROM refreshes
+                    GROUP BY symbol
+                ) AS latest ON refreshes.id = latest.latest_id
+                ORDER BY refreshes.symbol
+                """
+            ).fetchall()
+        return tuple(self._refresh_record_from_row(row) for row in rows)
+
+    def load_series(self, refresh: RefreshRecord) -> PriceSeries | None:
+        """Load prices for one rankable refresh record."""
+
+        if not refresh.is_rankable:
+            return None
+        with self._connect() as connection:
+            price_rows = connection.execute(
+                """
+                SELECT trading_date, adjusted_close
+                FROM daily_prices
+                WHERE refresh_id = ?
+                ORDER BY trading_date
+                """,
+                (refresh.id,),
+            ).fetchall()
+
+        return PriceSeries(
+            symbol=refresh.symbol,
+            prices=tuple(
+                DailyPrice(
+                    trading_date=date.fromisoformat(row["trading_date"]),
+                    adjusted_close=float(row["adjusted_close"]),
+                )
+                for row in price_rows
+            ),
+            source=refresh.source,
+            retrieved_at=refresh.retrieved_at,
+        )
+
+    @staticmethod
+    def _refresh_record_from_row(row: sqlite3.Row) -> RefreshRecord:
+        return RefreshRecord(
+            id=int(row["id"]),
+            symbol=str(row["symbol"]),
+            source=str(row["source"]),
+            as_of=date.fromisoformat(str(row["as_of_date"])),
+            retrieved_at=date.fromisoformat(str(row["retrieved_at"])),
+            is_rankable=bool(row["is_rankable"]),
+            issues=tuple(ValidationIssue(issue) for issue in json.loads(row["validation_issues"])),
+            failure_reason=row["provider_failure_reason"],
+        )
+
     def _initialize(self) -> None:
         self._database_path.parent.mkdir(parents=True, exist_ok=True)
         with self._connect() as connection:

@@ -99,18 +99,18 @@
 
 **Estimated scope:** M.
 
-## Task 5: Calculate Score Evidence And Create The Stock Shortlist
+## Task 5: Calculate Score Evidence And Create The Stock Shortlist - Complete
 
 **Description:** Implement pure metric and score calculations from persisted validated prices, returning every contribution and reason a symbol was withheld, then select the top five valid stocks.
 
 **Acceptance criteria:**
-- [ ] Scores use only the frozen contract and valid point-in-time prices.
-- [ ] Every ranked result includes metric values, weights, contributions, source freshness, and validation status.
-- [ ] Inadequate-history and invalid records are withheld with an explicit reason.
+- [x] Scores use only the frozen contract and valid point-in-time prices.
+- [x] Every ranked result includes metric values, weights, contributions, source freshness, and validation status.
+- [x] Inadequate-history and invalid records are withheld with an explicit reason.
 
 **Verification:**
-- [ ] `.venv/bin/python -m pytest -q tests/unit/test_metrics.py tests/unit/test_scoring.py tests/unit/test_shortlist.py`
-- [ ] Verify a hand-worked fixture produces expected contributions and ordering.
+- [x] `.venv/bin/python -m pytest -q tests/unit/test_metrics.py tests/unit/test_scoring.py tests/unit/test_shortlist.py`
+- [x] The approved three-stock worked fixture produces Stock A's $82.5$ score and each expected contribution.
 
 **Dependencies:** Task 4.
 

@@ -70,3 +70,11 @@ This file is a concise, project-only record of meaningful steps, workflows, and 
 - **Validation:** Four fixture-only repository and refresh-service integration tests pass. A temporary-database inspection confirmed one rankable `RELIANCE.NS` refresh with source/as-of metadata and 252 linked price rows.
 - **Guardrail:** Provider failures and invalid series remain inspectable non-rankable refresh records with zero price rows, preventing invalid external data from entering scoring.
 - **Next process:** Calculate deterministic score evidence and create the valid-stock shortlist.
+
+## 2026-07-26 - Deterministic Stock Scoring And Shortlist
+
+- **Task completed:** Task 5, deterministic score evidence and the stock shortlist.
+- **Outcome:** Added pure calculations for literal 12-month and six-month returns, trailing drawdown, annualized daily-return volatility, and completed-calendar-month consistency. The scorer uses cross-sectional average-tie percentiles, reverses volatility only, retains every raw value and weighted contribution, and rounds the final score to one decimal place.
+- **Validation:** The approved three-stock fixture produces Stock A's $82.5$ score with contributions of 25, 10, 25, 7.5, and 15. SQLite-backed tests verify that only latest rankable refreshes enter the top five and that invalid data remains visible as withheld evidence.
+- **Guardrail:** Maximum drawdown is stored as a signed loss; a value closer to zero is numerically higher and therefore ranks higher without a separate reversal. A latest invalid refresh never silently falls back to an older stored series.
+- **Next process:** Add manual holding review using the same evidence-backed scoring path.
