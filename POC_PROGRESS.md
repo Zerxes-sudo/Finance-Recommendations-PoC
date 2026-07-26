@@ -66,4 +66,7 @@ Create a written tranche-one specification from the confirmed intent before choo
 - **Task 6 complete:** Manual holding review accepts only a symbol and optional informational quantity. It normalizes the symbol and returns the exact same `ScoreEvidence` model used by the research universe and shortlist.
 - **Guardrail:** Unknown symbols, invalid latest refreshes, and insufficient histories return a visible withholding reason; holding review neither calls a broker nor fabricates a score.
 - **Validation:** Focused tests cover a valid normalized symbol, an unknown symbol, and an insufficient-history fixture. The research-pipeline checkpoint is complete.
-- **Next step:** Begin Task 7: build six-month walk-forward evaluation with point-in-time scoring.
+- **Task 7 complete:** The pure walk-forward evaluator forms fixed top-five and bottom-five cohorts at month-end snapshots, then compares their equal-weight six-month adjusted-price returns with the NIFTY 50 benchmark.
+- **Guardrail:** Before each snapshot is scored, every stock series is sliced to prices available on or before that date. Tied scores remain non-overlapping cohorts; a snapshot is withheld when coverage cannot support both five-stock cohorts, a constituent return, or the benchmark return.
+- **Validation:** Synthetic tests prove that a low-scoring stock's later 1,000% return cannot change historical cohort membership. Tests also cover tied scores, unsorted monthly prices, incomplete horizon data, coverage, and deterministic cohort and benchmark returns.
+- **Next step:** Begin Task 8: build the Streamlit Research Desk around the validated stock shortlist and holding review.

@@ -58,6 +58,17 @@ $$
 
 The implementation must retain the five contributions, the five raw metric values, and the cross-sectional universe size as score evidence.
 
+## Evaluation Contract
+
+This contract is frozen before the first walk-forward evaluation. It observes the price-based score; it does not tune metric weights, cohort rules, or dates from evaluation outcomes.
+
+- Each snapshot uses the last available trading date in a calendar month. Score inputs are restricted to prices dated on or before that snapshot date.
+- The high cohort is the five highest scored eligible stocks; the low cohort is the five lowest. A snapshot is withheld when fewer than 10 stocks have a score, so cohorts never overlap.
+- Each cohort return is the equal-weight mean of its five constituents' six-calendar-month adjusted-price returns. The benchmark is the NIFTY 50 adjusted-price return over the same dates.
+- For a non-trading horizon date, the evaluator uses the last available adjusted close on or before that date.
+- A snapshot is withheld when a cohort constituent or the benchmark lacks either the snapshot or horizon close. The report retains withheld reasons, requested snapshot count, completed snapshot count, and coverage.
+- Reported limitations include price-only returns, unavailable dividend and total-return adjustments, no transaction costs or taxes, survivorship bias, source availability, and the fact that historical outcomes are not predictions.
+
 ## Tech Stack
 
 | Concern | Decision |

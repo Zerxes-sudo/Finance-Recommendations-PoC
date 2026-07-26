@@ -86,3 +86,13 @@ This file is a concise, project-only record of meaningful steps, workflows, and 
 - **Validation:** A valid normalized holding receives the exact shared `ScoreEvidence`; unknown symbols receive `No persisted refresh record for symbol.`; a 251-price fixture reports `insufficient_history` rather than a score.
 - **Guardrail:** The review service has no brokerage connection and records no sensitive holding details. Latest invalid refreshes and insufficient score history remain explicit withholding outcomes.
 - **Next process:** Build the point-in-time, six-month walk-forward evaluation.
+
+## 2026-07-26 - Six-Month Walk-Forward Evaluation
+
+- **Task completed:** Task 7, fixed-cohort walk-forward evaluation.
+- **Decision:** Evaluation uses calendar month-end snapshots, selects the top five and bottom five frozen-score stocks, and requires at least 10 score-eligible symbols. It measures equal-weight six-calendar-month adjusted-price returns against the NIFTY 50 benchmark, using the last available close on or before each horizon date.
+- **Outcome:** Added typed observations, withheld snapshots, coverage, sample sizes, and visible price-only evaluation limitations. The evaluator has no configurable weights or cohort size.
+- **Validation:** A future 1,000% gain on a historically low-scoring stock does not change the high cohort. Tests also prove tied cohorts are disjoint, unsorted inputs produce ordered month ends, missing benchmark horizons are withheld with a named reason, and default monthly snapshots report incomplete coverage.
+- **Review:** A fresh adversarial review found tied-cohort overlap, unsorted month-end selection, and missing-price coverage gaps; all were corrected and covered. Codex CLI was unavailable for the requested cross-model review, so the project owner approved proceeding with the same-model findings.
+- **Limitations:** Results are price-only and exclude dividends or total-return adjustments, transaction costs, taxes, liquidity constraints, full survivorship control, and any claim that historic outcomes predict future returns.
+- **Next process:** Build the Streamlit Research Desk around the validated evidence pipeline.

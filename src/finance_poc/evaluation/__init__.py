@@ -1,0 +1,1 @@
+"""Point-in-time walk-forward evaluation of frozen research signals."""

@@ -151,18 +151,18 @@
 - [x] A recorded fixture can flow from refresh through persistence into an evidence-backed top five and holding review.
 - [x] `pytest -q` and `ruff check .` pass.
 
-## Task 7: Build Six-Month Walk-Forward Evaluation
+## Task 7: Build Six-Month Walk-Forward Evaluation - Complete
 
 **Description:** Use monthly point-in-time score snapshots to compare equal-weight score cohorts with the NIFTY 50 benchmark over the next six months, reporting sample size and coverage.
 
 **Acceptance criteria:**
-- [ ] No evaluation snapshot uses future prices in its score calculation.
-- [ ] The report includes cohort return, benchmark return, sample size, coverage, and limitations.
-- [ ] The evaluator accepts frozen weights and cannot tune them.
+- [x] No evaluation snapshot uses future prices in its score calculation.
+- [x] The report includes cohort return, benchmark return, sample size, coverage, and limitations.
+- [x] The evaluator accepts frozen weights and cannot tune them.
 
 **Verification:**
-- [ ] `.venv/bin/python -m pytest -q tests/unit/test_evaluation.py`
-- [ ] Check a synthetic time series with known future returns for look-ahead leakage.
+- [x] `.venv/bin/python -m pytest -q tests/unit/test_evaluation.py`
+- [x] A synthetic stock with a 1,000% future return remains outside the high cohort when its pre-snapshot evidence is low.
 
 **Dependencies:** Task 5.
 
