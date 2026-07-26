@@ -76,18 +76,18 @@
 - [ ] A failed provider response becomes a visible validation result, not an unhandled crash or a silently incomplete ranking.
 - [ ] Project owner reviews the provider-spike outcome before persistence work begins.
 
-## Task 4: Persist Validated Prices And Refresh Metadata
+## Task 4: Persist Validated Prices And Refresh Metadata - Complete
 
 **Description:** Add SQLite persistence for daily prices, source metadata, and validation outcomes, along with a refresh service that writes only validated data.
 
 **Acceptance criteria:**
-- [ ] A refresh writes valid records and source/as-of metadata to a local ignored SQLite database.
-- [ ] Invalid or duplicate records are not silently stored as valid data.
-- [ ] The repository can read a persisted series reproducibly for downstream calculations.
+- [x] A refresh writes valid records and source/as-of metadata to a local ignored SQLite database.
+- [x] Invalid or duplicate records are not silently stored as valid data.
+- [x] The repository can read a persisted series reproducibly for downstream calculations.
 
 **Verification:**
-- [ ] `.venv/bin/python -m pytest -q tests/integration/test_price_repository.py`
-- [ ] Inspect a temporary test database to confirm price and refresh metadata records.
+- [x] `.venv/bin/python -m pytest -q tests/integration/test_price_repository.py tests/integration/test_refresh.py`
+- [x] Inspected a temporary database: one valid refresh stored `RELIANCE.NS` provenance and 252 linked price rows.
 
 **Dependencies:** Task 3.
 

@@ -81,6 +81,15 @@ Every fetch returns a typed result: either a `PriceSeries` with symbol, source, 
 
 **Provider spike, 2026-07-26:** `RELIANCE.NS` and `INFY.NS` each returned 273 daily rows over a 400-calendar-day request and passed the current validation rules with no issues. This demonstrates that the adapter works for representative NSE symbols, not that yfinance is a guaranteed or complete market-data source.
 
+### Local Persistence Contract
+
+The local ignored SQLite database has two tables:
+
+- `refreshes`: immutable evidence for every provider outcome, including symbol, source, as-of date, retrieval date, rankability, validation issues, and an optional provider-failure reason.
+- `daily_prices`: adjusted-close rows linked to a refresh. Rows are inserted only when the refresh is rankable.
+
+This means a failed or invalid refresh remains visible for diagnostics but can never be mistaken for usable research data. The temporary-database verification on 2026-07-26 stored one valid `RELIANCE.NS` refresh and exactly 252 linked daily-price rows.
+
 ## Commands
 
 Commands become executable when the project scaffold is created. The planned developer workflow is:

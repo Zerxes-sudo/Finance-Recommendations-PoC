@@ -62,3 +62,11 @@ This file is a concise, project-only record of meaningful steps, workflows, and 
 - **Validation:** Eight fixture-only tests pass without network access. A live provider spike returned 273 daily rows each for `RELIANCE.NS` and `INFY.NS` across a 400-calendar-day request; both were rankable with no validation issues.
 - **Limitation:** The successful spike proves current behavior for two representative NSE symbols only. It does not establish source completeness, long-term availability, or suitability for mutual-fund NAV data.
 - **Next process:** Complete the data-foundation checkpoint, then persist validated prices and refresh metadata in SQLite.
+
+## 2026-07-26 - SQLite Refresh Persistence
+
+- **Task completed:** Task 4, validated price and refresh-metadata persistence.
+- **Outcome:** Added a two-table local SQLite repository. Every provider outcome persists provenance and validation evidence; only rankable refreshes persist adjusted-close rows.
+- **Validation:** Four fixture-only repository and refresh-service integration tests pass. A temporary-database inspection confirmed one rankable `RELIANCE.NS` refresh with source/as-of metadata and 252 linked price rows.
+- **Guardrail:** Provider failures and invalid series remain inspectable non-rankable refresh records with zero price rows, preventing invalid external data from entering scoring.
+- **Next process:** Calculate deterministic score evidence and create the valid-stock shortlist.
