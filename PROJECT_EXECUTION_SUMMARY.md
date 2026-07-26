@@ -24,3 +24,33 @@ This file is a concise, project-only record of meaningful steps, workflows, and 
 - **Decision:** Build a two-layer hybrid: an evidence-first Research Desk and a constrained Strategy Lab. The Research Desk supports separate stock and mutual-fund shortlists plus manual holding review. The Strategy Lab performs basic walk-forward historical evaluation of a fixed model and surfaces limitations.
 - **Artifact created:** [docs/ideas/two-layer-research-desk.md](docs/ideas/two-layer-research-desk.md) records alternatives, assumptions to validate, MVP scope, exclusions, and open questions.
 - **Next process:** Create the tranche-one specification before choosing a technology stack or writing application code.
+
+## 2026-07-26 - Tranche-One Specification
+
+- **Skill invoked:** `spec-driven-development`.
+- **Process followed:** Converted the confirmed product direction into a pre-implementation contract, surfaced data-source, scoring, and evaluation assumptions, and confirmed the initial decisions with the project owner.
+- **Decisions:** Start with live historic NIFTY 50 stock data, a fund-provider contract plus clearly marked fixtures, deterministic price-based scoring, and six-month walk-forward cohort evaluation.
+- **Artifact created:** [docs/specs/tranche-one.md](docs/specs/tranche-one.md) defines the objective, commands, projected structure, code style, test strategy, boundaries, success criteria, risks, and open questions.
+- **Approval:** Approved by the project owner.
+
+## 2026-07-26 - Tranche-One Planning
+
+- **Skill invoked:** `planning-and-task-breakdown`.
+- **Process followed:** Mapped the dependency graph, put the data-provider spike and scoring contract early, then divided the tranche into ten testable tasks with checkpoints.
+- **Artifacts created:** [tasks/plan.md](tasks/plan.md) and [tasks/todo.md](tasks/todo.md).
+- **Approval:** Approved by the project owner.
+
+## 2026-07-26 - Scoring Contract
+
+- **Task completed:** Task 1, the frozen price-based scoring contract.
+- **Decision:** Score valid NIFTY 50 stocks using cross-sectional percentile ranks for 12-month return (25%), six-month return (20%), maximum drawdown (25%), annualized volatility (15%), and positive-month share (15%). Reverse risk metric ranks so lower drawdown and volatility score higher.
+- **Guardrail:** Withhold scores for insufficient or unresolved-invalid data; preserve raw metrics and weighted contributions as evidence; do not alter weights before the first evaluation.
+- **Next process:** Scaffold the local Python project.
+
+## 2026-07-26 - Local Python Scaffold
+
+- **Task completed:** Task 2, the local Python project scaffold.
+- **Outcome:** Installed Homebrew Python 3.12.13, created the project `.venv`, added `pyproject.toml`, the `finance_poc` package, a smoke test, Ruff, and a Streamlit entry point.
+- **Validation:** Editable installation succeeded; `pytest -q` passed; `ruff check .` passed; and the Streamlit scaffold rendered successfully in a browser at `http://127.0.0.1:8501`.
+- **Environment limitation:** The default pip certificate backend failed against PyPI even though Python's configured CA bundle and `curl` could verify PyPI. Pip's verified legacy certificate backend was confirmed as the narrow workaround and is recorded in the specification.
+- **Next process:** Prove the stock-provider and data-validation path.

@@ -46,3 +46,15 @@ Create a written tranche-one specification from the confirmed intent before choo
 - **Confirmed scope:** NIFTY 50 stocks, approximately 20-30 established Indian equity mutual funds, manual holding entry, and a visible fixed moderate-growth profile.
 - **Guardrail:** Historical evaluation tests whether the model merits further research; it does not claim to predict returns or justify investment advice.
 - **Next step:** Write the tranche-one specification, beginning with data-source selection, data-quality rules, scoring inputs, and evaluation criteria.
+
+## Tranche-One Specification - 2026-07-26
+
+- **Status:** Approved by the project owner; implementation plan and task list created.
+- **Source of truth:** [docs/specs/tranche-one.md](docs/specs/tranche-one.md).
+- **Decisions:** Use real historic NIFTY 50 stock ingestion behind a replaceable provider interface, represent funds with explicitly marked fixtures until a live source is proven, start with deterministic price-based scoring, and use six-month walk-forward cohort evaluation.
+- **Plan:** [tasks/plan.md](tasks/plan.md).
+- **Task list:** [tasks/todo.md](tasks/todo.md).
+- **Task 1 complete:** The approved scoring contract uses cross-sectional percentiles for the valid NIFTY 50 universe: 12-month return (25%), six-month return (20%), maximum drawdown (25%), annualized volatility (15%), and positive-month share (15%). Scores are withheld for incomplete or unresolved-invalid data and weights are frozen before evaluation.
+- **Task 2 complete:** Python 3.12.13, a repository-local `.venv`, packaging metadata, a minimal `finance_poc` package, automated smoke testing, Ruff linting, and a local Streamlit entry point are in place. The Streamlit scaffold was verified in a browser at `http://127.0.0.1:8501`.
+- **Environment note:** This Mac's default pip certificate backend could not verify PyPI. The verified local install command uses pip's legacy certificate backend; this is documented in the tranche-one specification and should be revisited after the trust-store issue is fixed.
+- **Next step:** Begin Task 3: prove the stock-provider and data-validation path.
