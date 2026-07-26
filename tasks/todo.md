@@ -123,18 +123,18 @@
 
 **Estimated scope:** M.
 
-## Task 6: Add Manual Holding Review
+## Task 6: Add Manual Holding Review - Complete
 
 **Description:** Introduce a manual holding input and review service that resolves a holding through the same validated stock-score pipeline as the shortlist.
 
 **Acceptance criteria:**
-- [ ] A holding can be entered without a broker connection or sensitive data beyond its symbol and optional quantity.
-- [ ] A valid holding receives the same evidence model as a shortlist candidate.
-- [ ] Unknown or unrankable symbols show a clear reason rather than a fabricated result.
+- [x] A holding can be entered without a broker connection or sensitive data beyond its symbol and optional quantity.
+- [x] A valid holding receives the same evidence model as a shortlist candidate.
+- [x] Unknown or unrankable symbols show a clear reason rather than a fabricated result.
 
 **Verification:**
-- [ ] `.venv/bin/python -m pytest -q tests/unit/test_holdings.py`
-- [ ] Test one valid, one unknown, and one insufficient-history holding fixture.
+- [x] `.venv/bin/python -m pytest -q tests/unit/test_holdings.py`
+- [x] Tested one normalized valid symbol, one unknown symbol, and one insufficient-history fixture.
 
 **Dependencies:** Task 5.
 
@@ -145,11 +145,11 @@
 
 **Estimated scope:** S.
 
-## Checkpoint: Research Pipeline
+## Checkpoint: Research Pipeline - Complete
 
-- [ ] Tasks 4 through 6 meet their acceptance criteria.
-- [ ] A recorded fixture can flow from refresh through persistence into an evidence-backed top five and holding review.
-- [ ] `pytest -q` and `ruff check .` pass.
+- [x] Tasks 4 through 6 meet their acceptance criteria.
+- [x] A recorded fixture can flow from refresh through persistence into an evidence-backed top five and holding review.
+- [x] `pytest -q` and `ruff check .` pass.
 
 ## Task 7: Build Six-Month Walk-Forward Evaluation
 

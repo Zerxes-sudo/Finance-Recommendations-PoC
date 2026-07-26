@@ -78,3 +78,11 @@ This file is a concise, project-only record of meaningful steps, workflows, and 
 - **Validation:** The approved three-stock fixture produces Stock A's $82.5$ score with contributions of 25, 10, 25, 7.5, and 15. SQLite-backed tests verify that only latest rankable refreshes enter the top five and that invalid data remains visible as withheld evidence.
 - **Guardrail:** Maximum drawdown is stored as a signed loss; a value closer to zero is numerically higher and therefore ranks higher without a separate reversal. A latest invalid refresh never silently falls back to an older stored series.
 - **Next process:** Add manual holding review using the same evidence-backed scoring path.
+
+## 2026-07-26 - Manual Holding Review
+
+- **Task completed:** Task 6, manual holding review.
+- **Outcome:** Added a minimal holding model containing only a symbol and optional quantity. Holding review trims and uppercases the symbol, then looks it up in the same persisted research universe used for the shortlist.
+- **Validation:** A valid normalized holding receives the exact shared `ScoreEvidence`; unknown symbols receive `No persisted refresh record for symbol.`; a 251-price fixture reports `insufficient_history` rather than a score.
+- **Guardrail:** The review service has no brokerage connection and records no sensitive holding details. Latest invalid refreshes and insufficient score history remain explicit withholding outcomes.
+- **Next process:** Build the point-in-time, six-month walk-forward evaluation.

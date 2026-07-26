@@ -18,13 +18,21 @@ class StockShortlist:
     withheld: tuple[WithheldStockEvidence, ...]
 
 
-class StockShortlistService:
-    """Builds a shortlist from only each symbol's latest persisted refresh."""
+@dataclass(frozen=True)
+class StockResearchUniverse:
+    """All scored and withheld symbols from latest persisted refreshes."""
+
+    scored: tuple[ScoreEvidence, ...]
+    withheld: tuple[WithheldStockEvidence, ...]
+
+
+class StockResearchService:
+    """Builds one shared research universe from latest persisted refreshes."""
 
     def __init__(self, repository: SqlitePriceRepository) -> None:
         self._repository = repository
 
-    def build(self) -> StockShortlist:
+    def build(self) -> StockResearchUniverse:
         """Score rankable latest refreshes and expose every excluded symbol's reason."""
 
         series = []
@@ -46,9 +54,25 @@ class StockShortlistService:
             )
 
         scored = score_price_series(series)
-        ranked = tuple(item for item in scored if isinstance(item, ScoreEvidence))
+        rankable = tuple(item for item in scored if isinstance(item, ScoreEvidence))
         withheld.extend(item for item in scored if isinstance(item, WithheldStockEvidence))
-        return StockShortlist(
-            ranked=ScoreEvidence.top_five(ranked),
+        return StockResearchUniverse(
+            scored=rankable,
             withheld=tuple(sorted(withheld, key=lambda item: item.symbol)),
+        )
+
+
+class StockShortlistService:
+    """Selects the top five from the shared persisted research universe."""
+
+    def __init__(self, repository: SqlitePriceRepository) -> None:
+        self._research_service = StockResearchService(repository)
+
+    def build(self) -> StockShortlist:
+        """Return the top five valid scores and every separately withheld symbol."""
+
+        universe = self._research_service.build()
+        return StockShortlist(
+            ranked=ScoreEvidence.top_five(universe.scored),
+            withheld=universe.withheld,
         )

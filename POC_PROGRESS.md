@@ -63,4 +63,7 @@ Create a written tranche-one specification from the confirmed intent before choo
 - **Task 5 complete:** The scoring pipeline calculates all five frozen price metrics, percentile-normalizes each eligible metric across the current valid universe, preserves raw values, weights, and contributions, and selects a stable top five.
 - **Guardrail:** The shortlist reads only each symbol's latest persisted refresh. A latest invalid or provider-failed refresh is shown as withheld with its reason; it does not silently fall back to older stored prices.
 - **Validation:** Deterministic tests confirm the approved $82.5$ worked example, signed-drawdown direction, average-tie ranking, explicit metric withholding, and a SQLite-backed shortlist that excludes invalid data.
-- **Next step:** Begin Task 6: add manual holding review through the same evidence-backed score path.
+- **Task 6 complete:** Manual holding review accepts only a symbol and optional informational quantity. It normalizes the symbol and returns the exact same `ScoreEvidence` model used by the research universe and shortlist.
+- **Guardrail:** Unknown symbols, invalid latest refreshes, and insufficient histories return a visible withholding reason; holding review neither calls a broker nor fabricates a score.
+- **Validation:** Focused tests cover a valid normalized symbol, an unknown symbol, and an insufficient-history fixture. The research-pipeline checkpoint is complete.
+- **Next step:** Begin Task 7: build six-month walk-forward evaluation with point-in-time scoring.
