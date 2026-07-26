@@ -54,3 +54,11 @@ This file is a concise, project-only record of meaningful steps, workflows, and 
 - **Validation:** Editable installation succeeded; `pytest -q` passed; `ruff check .` passed; and the Streamlit scaffold rendered successfully in a browser at `http://127.0.0.1:8501`.
 - **Environment limitation:** The default pip certificate backend failed against PyPI even though Python's configured CA bundle and `curl` could verify PyPI. Pip's verified legacy certificate backend was confirmed as the narrow workaround and is recorded in the specification.
 - **Next process:** Prove the stock-provider and data-validation path.
+
+## 2026-07-26 - Stock Provider And Validation
+
+- **Task completed:** Task 3, stock provider and data validation.
+- **Outcome:** Added a replaceable `yfinance` daily-price adapter, typed fetch failures, and deterministic validation for empty, short, duplicate-date, stale, and invalid-price series.
+- **Validation:** Eight fixture-only tests pass without network access. A live provider spike returned 273 daily rows each for `RELIANCE.NS` and `INFY.NS` across a 400-calendar-day request; both were rankable with no validation issues.
+- **Limitation:** The successful spike proves current behavior for two representative NSE symbols only. It does not establish source completeness, long-term availability, or suitability for mutual-fund NAV data.
+- **Next process:** Complete the data-foundation checkpoint, then persist validated prices and refresh metadata in SQLite.

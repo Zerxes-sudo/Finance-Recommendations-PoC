@@ -73,6 +73,14 @@ The implementation must retain the five contributions, the five raw metric value
 
 The data-provider interface must make `yfinance` replaceable. The fund fixture provider must carry source type, as-of date, and an explicit `is_fixture` marker.
 
+### Stock Provider Contract
+
+`YFinanceStockPriceProvider` is the current implementation of the replaceable daily-price provider boundary. It uses `yfinance.download` with one NSE symbol at a time, `interval="1d"`, `auto_adjust=False`, and `multi_level_index=False`, then reads the provider's `Adj Close` column as the adjusted-close input for the scoring contract. The end date supplied to yfinance is exclusive, so the adapter adds one calendar day to include the requested end date. Source reference: https://ranaroussi.github.io/yfinance/reference/api/yfinance.download.html
+
+Every fetch returns a typed result: either a `PriceSeries` with symbol, source, retrieval date, and daily prices, or a `ProviderFailure` with symbol, source, and a machine-readable reason. Validation then withholds a series with empty, duplicate-date, stale, short-history, or invalid-price evidence; no invalid series is rankable.
+
+**Provider spike, 2026-07-26:** `RELIANCE.NS` and `INFY.NS` each returned 273 daily rows over a 400-calendar-day request and passed the current validation rules with no issues. This demonstrates that the adapter works for representative NSE symbols, not that yfinance is a guaranteed or complete market-data source.
+
 ## Commands
 
 Commands become executable when the project scaffold is created. The planned developer workflow is:

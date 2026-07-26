@@ -45,18 +45,18 @@
 
 **Estimated scope:** M.
 
-## Task 3: Prove The Stock Provider And Data Validation Path
+## Task 3: Prove The Stock Provider And Data Validation Path - Complete
 
 **Description:** Implement a replaceable price-provider contract, a `yfinance` stock provider, representative recorded fixtures, and validation that detects missing, duplicate, stale, and insufficient history.
 
 **Acceptance criteria:**
-- [ ] The provider emits a typed daily-price and source-metadata result for configured NSE symbols.
-- [ ] Validation classifies every issue and prevents invalid series from becoming rankable.
-- [ ] Automated tests use recorded fixtures and do not access the network.
+- [x] The provider emits a typed daily-price and source-metadata result for configured NSE symbols.
+- [x] Validation classifies every issue and prevents invalid series from becoming rankable.
+- [x] Automated tests use recorded fixtures and do not access the network.
 
 **Verification:**
-- [ ] `.venv/bin/python -m pytest -q tests/unit/test_validation.py tests/integration/test_stock_provider.py`
-- [ ] Manual provider spike against a small configured NSE symbol set, when network access is available.
+- [x] `.venv/bin/python -m pytest -q tests/unit/test_validation.py tests/integration/test_stock_provider.py`
+- [x] Manual provider spike against `RELIANCE.NS` and `INFY.NS`; each returned 273 daily rows and no validation issues.
 
 **Dependencies:** Task 2.
 
